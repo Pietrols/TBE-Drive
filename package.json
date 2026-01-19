@@ -1,0 +1,21 @@
+{
+  "name": "tbe-drive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pietrols/TBE-Drive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Pietrols/TBE-Drive/issues"
+  },
+  "homepage": "https://github.com/Pietrols/TBE-Drive#readme"
+}
