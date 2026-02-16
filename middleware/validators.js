@@ -2,7 +2,7 @@ const { body, validationResult } = require("express-validator");
 
 const registerValidator = [
   // username field
-  body("username")
+  body("name")
     .exists({ checkFalsy: true })
     .trim()
     .isAlpha()
