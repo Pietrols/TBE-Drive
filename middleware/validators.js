@@ -4,15 +4,16 @@ const registerValidator = [
   // username field
   body("name")
     .exists({ checkFalsy: true })
+    .withMessage("Username is required")
     .trim()
-    .isAlpha()
-    .withMessage("Username must be at least 2")
-    .isLength({ min: 2, max: 20 }),
+    .isLength({ min: 2, max: 20 })
+    .withMessage("Username must be at between 2 and 20 Characters"),
 
   // email field
   body("email")
     .exists({ checkFalsy: true })
-    .withMessage("Valid email is required")
+    .withMessage("Email is required")
+    .trim()
     .isEmail()
     .withMessage("Valid email is required")
     .normalizeEmail(),
@@ -20,16 +21,20 @@ const registerValidator = [
   // password field
   body("password")
     .exists({ checkFalsy: true })
+    .withMessage("Password is required")
     .isLength({ min: 8 })
     .withMessage("Password must be atleast 8 characters long"),
 
   // confirm password field
-  body("confirmPassword").custom((value, { req }) => {
-    if (value !== req.body.passport) {
-      throw new Error("Passwords do not match");
-    }
-    return true;
-  }),
+  body("confirmPassword")
+    .exists({ checkFalsy: true })
+    .withMessage("Please confirm your password")
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords do not match");
+      }
+      return true;
+    }),
 ];
 
 module.exports = registerValidator;
