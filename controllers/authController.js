@@ -27,7 +27,7 @@ exports.registerUser = async (req, res, next) => {
       where: { email: email.toLowerCase() },
     });
     if (existingUser) {
-      return res.render("signup", {
+      return res.render("register", {
         errors: [{ msg: "Email already registered" }],
         formData: req.body,
       });
@@ -50,7 +50,7 @@ exports.registerUser = async (req, res, next) => {
   } catch (err) {
     console.error("Registration error:", err);
     // Return error
-    return res.render("signup", {
+    return res.render("register", {
       errors: [{ msg: "Registration failed. Please try again" }],
       formData: req.body,
     });
