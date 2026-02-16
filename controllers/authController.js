@@ -4,7 +4,7 @@ const { prisma } = require("../lib/prisma");
 
 //show register form
 exports.showRegisterForm = (req, res) => {
-  res.render("signup", { errors: [], formData: {} });
+  res.render("register", { errors: [], formData: {} });
 };
 
 // register user
@@ -13,7 +13,7 @@ exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.render("signup", {
+    return res.render("register", {
       errors: errors.array(),
       formData: req.body,
     });

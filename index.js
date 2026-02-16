@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 require("dotenv").config();
+const authRoutes = require("./routes/auth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,9 @@ app.get("/", (req, res) => {
     "<h1>TBE-Drive Server Running!</h1><p>Database connection will be tested on first Prisma query.</p>",
   );
 });
+
+// Registration route
+app.use("/", authRoutes);
 
 // Test database connection
 app.get("/test-db", async (req, res) => {
