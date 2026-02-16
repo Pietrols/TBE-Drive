@@ -48,6 +48,11 @@ exports.registerUser = async (req, res, next) => {
     req.flash("success", "Registration successful. Please log in.");
     res.redirect("/login");
   } catch (err) {
-    next(err);
+    console.error("Registration error:", err);
+    // Return error
+    return res.render("signup", {
+      errors: [{ msg: "Registration failed. Please try again" }],
+      formData: req.body,
+    });
   }
 };
