@@ -4,7 +4,7 @@ const { prisma } = require("../lib/prisma");
 
 //show register form
 showRegisterForm = (req, res) => {
-  res.render("register", { errors: [], oldInput: {} });
+  res.render("register", { errors: [], formData: {} });
 };
 
 // register user
@@ -15,7 +15,7 @@ registerUser = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.render("register", {
       errors: errors.array(),
-      oldInput: req.body,
+      formData: req.body,
     });
   }
 
@@ -29,7 +29,7 @@ registerUser = async (req, res, next) => {
     if (existingUser) {
       return res.render("register", {
         errors: [{ msg: "Email already registered" }],
-        oldInput: req.body,
+        formData: req.body,
       });
     }
 
@@ -53,7 +53,7 @@ registerUser = async (req, res, next) => {
     // Return error
     return res.render("register", {
       errors: [{ msg: "Registration failed. Please try again" }],
-      oldInput: req.body,
+      formData: req.body,
     });
   }
 };
