@@ -8,17 +8,12 @@ const passport = require("./config/passport");
 const flash = require("connect-flash");
 const { prisma } = require("./lib/prisma");
 const authRoutes = require("./routes/auth");
-// const dashboardRoutes = require("./routes/dashboard");
+const dashboardRoutes = require("./routes/dashboard");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
-// middleware - body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -45,7 +40,7 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
       httpOnly: true,
-      secure: false, // Set to true in production with HTTPS
+      secure: false,
     },
   }),
 );
