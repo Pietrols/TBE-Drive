@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 
 // Registration route
 app.use("/", authRoutes);
-app.use("/dashboardRoutes");
+app.use("/", dashboardRoutes);
 
 // Home route (redirect to dashboard)
 app.get("/", (req, res) => {
