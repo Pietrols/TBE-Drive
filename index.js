@@ -2,7 +2,8 @@ const express = require("express");
 const path = require("path");
 require("dotenv").config();
 const session = require("express-session");
-const { PrismaStoreSession } = require("@quixo3/prisma-session-store");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+
 const passport = require("./config/passport");
 const flash = require("connect-flash");
 const { prisma } = require("./lib/prisma");
@@ -26,9 +27,11 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+console.log(typeof PrismaSessionStore);
+
 // session configuration
-const sessionStore = new PrismaStoreSession(prisma, {
-  checkPeriod: 2 * 60 * 1000, // clean expired sessions every two minutes
+const sessionStore = new PrismaSessionStore(prisma, {
+  checkPeriod: 2 * 60 * 1000,
   dbRecordIdIsSessionId: true,
   dbRecordIdFunction: undefined,
 });
