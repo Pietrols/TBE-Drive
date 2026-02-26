@@ -11,7 +11,7 @@ router.post("/register", registerValidator, authController.registerUser);
 // login routes
 router.get("/login", authController.showLoginForm);
 router.post(
-  "login",
+  "/login",
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "/login",
@@ -21,15 +21,5 @@ router.post(
 
 // logout route
 router.post("/logout", authController.logoutUser);
-
-// authentication middleware
-const isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-
-  req.flash("error_msg", "Please login to continue");
-  res.redirect("/login");
-};
 
 module.exports = router;
