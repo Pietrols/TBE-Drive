@@ -98,7 +98,7 @@ const upload = multer({
   },
 });
 
-// Error handler for multer errors
+// Error handler for multer errors -
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     // Multer-specific errors
