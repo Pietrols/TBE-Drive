@@ -9,6 +9,9 @@ const flash = require("connect-flash");
 const { prisma } = require("./lib/prisma");
 const authRoutes = require("./routes/auth");
 const dashboardRoutes = require("./routes/dashboard");
+const { notFound, errorHandler } = require("./middleware/errorHandling");
+const folderRoutes = require("./routes/folder");
+const fileRoutes = require("./routes/files");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -63,6 +66,8 @@ app.use((req, res, next) => {
 // Registration route
 app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
+app.use("/", folderRoutes);
+app.use("/", fileRoutes);
 
 // Home route (redirect to dashboard)
 app.get("/", (req, res) => {
@@ -74,17 +79,10 @@ app.get("/", (req, res) => {
 });
 
 // 404 handler
-app.use((req, res) => {
-  res.status(404).send('<h1>404 - Page Not Found</h1><a href="/">Go Home</a>');
-});
+app.use(notFound);
 
-// Error handler
-app.use((err, req, res, next) => {
-  console.error("Error:", err);
-  res
-    .status(500)
-    .send("<h1>500 - Server Error</h1><p>Something went wrong!</p>");
-});
+// Global Error handler
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
