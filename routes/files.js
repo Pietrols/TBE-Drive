@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fileController = require("../controllers/fileController");
+const fileDetailController = require("");
 const { isAuthenticated } = require("../middleware/auth");
 const { upload, handleMulterError } = require("../config/multer");
 
