@@ -1,25 +1,365 @@
-<!-- Upload Section -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= folder.name %> - TBE Drive</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f5f5f5;
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-left {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .navbar h2 {
+      font-size: 24px;
+    }
+    
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .navbar button {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .navbar button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .alert {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .breadcrumb {
+      margin-bottom: 20px;
+      color: #666;
+    }
+    
+    .breadcrumb a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    
+    .folder-header {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .folder-header h1 {
+      color: #333;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    
+    .folder-stats {
+      display: flex;
+      gap: 30px;
+      color: #666;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    
+    .upload-section {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .upload-section h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    
+    .upload-form {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .file-input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+    
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px dashed #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    
+    input[type="file"]:hover {
+      border-color: #667eea;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
+    .files-section {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .files-section h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    
+    .file-list {
+      list-style: none;
+    }
+    
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      transition: background 0.2s;
+    }
+    
+    .file-item:hover {
+      background: #f9f9f9;
+    }
+    
+    .file-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .file-icon {
+      font-size: 32px;
+    }
+    
+    .file-details {
+      flex: 1;
+    }
+    
+    .file-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+    
+    .file-meta {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .file-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+    
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <h2>TBE Drive</h2>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/folders">Folders</a>
+    </div>
+    <form action="/logout" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+  </nav>
+  
+  <div class="container">
+    <!-- Flash Messages -->
+    <% if (success_msg && success_msg.length > 0) { %>
+      <div class="alert alert-success">
+        <%= success_msg %>
+      </div>
+    <% } %>
+    
+    <% if (error_msg && error_msg.length > 0) { %>
+      <div class="alert alert-error">
+        <%= error_msg %>
+      </div>
+    <% } %>
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="/dashboard">Home</a> / 
+      <a href="/folders">Folders</a> / 
+      <%= folder.name %>
+    </div>
+    
+    <!-- Folder Header -->
+    <div class="folder-header">
+      <h1>📁 <%= folder.name %></h1>
+      <div class="folder-stats">
+        <div><strong><%= folder.files.length %></strong> file<%= folder.files.length !== 1 ? 's' : '' %></div>
+        <div><strong><%= formatFileSize(totalSize) %></strong> total size</div>
+      </div>
+    </div>
+    
+   <!-- Upload Section -->
 <div class="upload-section">
   <h2>Upload File</h2>
-  <p style="color: #666; font-size: 14px; margin-bottom: 15px">
-    <strong>Allowed:</strong> Images, Documents (PDF, Word, Excel, PowerPoint),
-    Text files, Archives, Audio, Video<br />
+  <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+    <strong>Allowed:</strong> Images, Documents (PDF, Word, Excel, PowerPoint), Text files, Archives, Audio, Video<br>
     <strong>Maximum size:</strong> 10 MB per file
   </p>
-  <form
-    action="/folders/<%= folder.id %>/upload"
-    method="POST"
-    enctype="multipart/form-data"
-    class="upload-form"
-  >
+  <form action="/folders/<%= folder.id %>/upload" method="POST" enctype="multipart/form-data" class="upload-form">
     <div class="file-input-wrapper">
-      <input
-        type="file"
-        name="file"
-        required
-        accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.7z,.mp3,.wav,.mp4,.mov"
-      />
+      <input type="file" name="file" required accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.7z,.mp3,.wav,.mp4,.mov">
     </div>
     <button type="submit" class="btn">Upload</button>
   </form>
 </div>
+    
+    <!-- Files Section -->
+    <div class="files-section">
+      <h2>Files</h2>
+      
+      <% if (folder.files.length > 0) { %>
+        <ul class="file-list">
+          <% folder.files.forEach(file => { %>
+            <li class="file-item">
+  <div class="file-info">
+    <div class="file-icon">📄</div>
+    <div class="file-details">
+      <div class="file-name">
+        <a href="/files/<%= file.id %>" style="color: #667eea; text-decoration: none;">
+          <%= file.name %>
+        </a>
+      </div>
+      <div class="file-meta">
+        <%= formatFileSize(file.size) %> • 
+        Uploaded <%= new Date(file.uploadDate).toLocaleDateString() %>
+      </div>
+    </div>
+  </div>
+  <div class="file-actions">
+    <a href="/files/<%= file.id %>" class="btn btn-small">View</a>
+    <a href="/files/<%= file.id %>/download" class="btn btn-small">Download</a>
+    <form action="/files/<%= file.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this file?');">
+      <button type="submit" class="btn btn-small btn-danger">Delete</button>
+    </form>
+  </div>
+</li>
+          <% }); %>
+        </ul>
+      <% } else { %>
+        <div class="empty-state">
+          <div class="empty-state-icon">📄</div>
+          <p>No files in this folder yet. Upload your first file above!</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>
