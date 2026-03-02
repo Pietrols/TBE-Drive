@@ -1,7 +1,8 @@
 const multer = require("multer");
 const path = require("path");
+const { storage } = require("./cloudinary"); // Import Cloudinary storage
 
-// Allowed MIME types
+// Allowed MIME types (keep the same)
 const ALLOWED_FILE_TYPES = {
   // Images
   "image/jpeg": [".jpg", ".jpeg"],
@@ -27,10 +28,6 @@ const ALLOWED_FILE_TYPES = {
   // Text files
   "text/plain": [".txt"],
   "text/csv": [".csv"],
-  "text/html": [".html"],
-  "text/css": [".css"],
-  "text/javascript": [".js"],
-  "application/json": [".json"],
 
   // Archives
   "application/zip": [".zip"],
@@ -52,18 +49,7 @@ const ALLOWED_FILE_TYPES = {
 // File size limits (in bytes)
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-// Configure storage (still using disk for now, will change in 3.2)
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname);
-  },
-});
-
-// File filter with validation
+// File filter with validation (keep the same)
 const fileFilter = (req, file, cb) => {
   // Check MIME type
   if (!ALLOWED_FILE_TYPES[file.mimetype]) {
@@ -88,20 +74,19 @@ const fileFilter = (req, file, cb) => {
   cb(null, true);
 };
 
-// Configure multer
+// Configure multer with Cloudinary storage
 const upload = multer({
-  storage: storage,
+  storage: storage, // Now using Cloudinary storage
   fileFilter: fileFilter,
   limits: {
     fileSize: MAX_FILE_SIZE,
-    files: 1, // Only one file at a time
+    files: 1,
   },
 });
 
-// Error handler for multer errors -
+// Error handler for multer errors (keep the same)
 const handleMulterError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
-    // Multer-specific errors
     if (err.code === "LIMIT_FILE_SIZE") {
       req.flash(
         "error_msg",
@@ -116,7 +101,6 @@ const handleMulterError = (err, req, res, next) => {
     }
     return res.redirect("back");
   } else if (err) {
-    // Custom validation errors
     if (
       err.code === "FILE_TYPE_NOT_ALLOWED" ||
       err.code === "FILE_EXTENSION_MISMATCH"
@@ -124,7 +108,6 @@ const handleMulterError = (err, req, res, next) => {
       req.flash("error_msg", err.message);
       return res.redirect("back");
     }
-    // Other errors
     return next(err);
   }
   next();
