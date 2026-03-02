@@ -10,7 +10,7 @@ const { prisma } = require("./lib/prisma");
 const authRoutes = require("./routes/auth");
 const dashboardRoutes = require("./routes/dashboard");
 const { notFound, errorHandler } = require("./middleware/errorHandling");
-const folderRoutes = require("./routes/folder");
+const folderRoutes = require("./routes/folders");
 const fileRoutes = require("./routes/files");
 
 const app = express();
