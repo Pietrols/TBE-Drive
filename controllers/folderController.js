@@ -67,7 +67,7 @@ const createFolder = async (req, res) => {
   }
 };
 
-// Show folder detail (will enhance in 2.4)
+// Show folder detail
 const showFolder = async (req, res) => {
   const { id } = req.params;
 
@@ -93,7 +93,23 @@ const showFolder = async (req, res) => {
       return res.redirect("/folders");
     }
 
-    res.render("folders/detail", { folder });
+    // Calculate total size
+    const totalSize = folder.files.reduce((sum, file) => sum + file.size, 0);
+
+    // Helper function to format file sizes
+    const formatFileSize = (bytes) => {
+      if (bytes === 0) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
+    };
+
+    res.render("folders/detail", {
+      folder,
+      totalSize,
+      formatFileSize, // ← MAKE SURE THIS IS HERE
+    });
   } catch (error) {
     console.error("Error fetching folder:", error);
     req.flash("error_msg", "Failed to load folder");

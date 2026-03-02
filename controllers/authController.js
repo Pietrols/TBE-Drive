@@ -58,7 +58,7 @@ registerUser = async (req, res, next) => {
   }
 };
 
-// shouw login form
+// show login form
 const showLoginForm = (req, res) => {
   res.render("login");
 };
@@ -75,13 +75,27 @@ const logoutUser = (req, res, next) => {
       return next(err);
     }
 
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Session destruction error:", err);
+    // Set flash message BEFORE destroying session
+    req.flash("success_msg", "You have been logged out");
+
+    // Save the session with the flash message
+    req.session.save((saveErr) => {
+      if (saveErr) {
+        console.error("Session save error:", saveErr);
       }
 
-      req.flash("success_msg", "You have been logged out");
-      res.redirect("/login");
+      // Now destroy the session
+      req.session.destroy((destroyErr) => {
+        if (destroyErr) {
+          console.error("Session destruction error:", destroyErr);
+        }
+
+        // Clear the cookie
+        res.clearCookie("connect.sid");
+
+        // Redirect to login
+        res.redirect("/login");
+      });
     });
   });
 };
