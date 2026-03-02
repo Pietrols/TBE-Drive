@@ -7,6 +7,9 @@ const { upload, handleMulterError } = require("../config/multer");
 // All routes require authentication
 router.use(isAuthenticated);
 
+// View file detail
+router.get("/files/:id", fileDetailController.showFileDetail);
+
 // Upload file to folder (with error handling)
 router.post(
   "/folders/:id/upload",
