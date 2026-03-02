@@ -1,0 +1,25 @@
+<!-- Upload Section -->
+<div class="upload-section">
+  <h2>Upload File</h2>
+  <p style="color: #666; font-size: 14px; margin-bottom: 15px">
+    <strong>Allowed:</strong> Images, Documents (PDF, Word, Excel, PowerPoint),
+    Text files, Archives, Audio, Video<br />
+    <strong>Maximum size:</strong> 10 MB per file
+  </p>
+  <form
+    action="/folders/<%= folder.id %>/upload"
+    method="POST"
+    enctype="multipart/form-data"
+    class="upload-form"
+  >
+    <div class="file-input-wrapper">
+      <input
+        type="file"
+        name="file"
+        required
+        accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.7z,.mp3,.wav,.mp4,.mov"
+      />
+    </div>
+    <button type="submit" class="btn">Upload</button>
+  </form>
+</div>
