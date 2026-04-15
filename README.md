@@ -549,3 +549,4 @@ Built as a learning project for full-stack web development.
 - Prisma documentation
 - Cloudinary documentation
 - Express.js community
+- Made with love
